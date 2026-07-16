@@ -583,7 +583,7 @@
       <textarea name="mesaj" placeholder="Projenden bahset... Ne tür bir site/uygulama istiyorsun? *" required></textarea>
       <button class="btn" type="submit" id="sendBtn">📨 Siparişi Gönder</button>
       <div class="form-msg ok" id="formOk">✅ Mesajın alındı! En kısa sürede sana dönüş yapacağız.</div>
-      <div class="form-msg err" id="formErr">⚠️ Gönderilemedi. Lütfen <a href="https://wa.me/905362065834" target="_blank" rel="noopener" style="color:#7bedaa">WhatsApp'tan yaz</a> veya tekrar dene.</div>
+      <div class="form-msg err" id="formErr">📲 Siparişin WhatsApp'a aktarıldı — açılan pencereden "Gönder"e bas. Açılmadıysa <a href="https://wa.me/905362065834" target="_blank" rel="noopener" style="color:#7bedaa">buraya tıkla</a>.</div>
     </form>
   </div>
 </section>
@@ -679,7 +679,11 @@ document.getElementById('orderForm').addEventListener('submit',async e=>{
     form.reset();
     setTimeout(()=>ok.style.display='none',8000);
   }catch(_){
+    // E-posta gitmezse siparişi WhatsApp'a aktar — hiçbir sipariş kaybolmasın
+    const d=Object.fromEntries(new FormData(form));
+    const txt='Merhaba! Siteden sipariş veriyorum:%0A👤 '+encodeURIComponent(d.ad||'')+'%0A📧 '+encodeURIComponent(d.email||'')+'%0A📞 '+encodeURIComponent(d.telefon||'-')+'%0A📦 '+encodeURIComponent(d.paket||'')+'%0A📝 '+encodeURIComponent(d.mesaj||'');
     err.style.display='block';
+    window.open('https://wa.me/905362065834?text='+txt,'_blank');
   }finally{
     btn.disabled=false; btn.textContent='📨 Siparişi Gönder';
   }
