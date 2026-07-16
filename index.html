@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SitenVar — Siten Yok mu? Artık VAR!</title>
 <meta name="description" content="SitenVar: Profesyonel web sitesi ve Android (APK) uygulama geliştirme hizmeti. Hayalindeki siteyi birlikte yapalım.">
+<link rel="canonical" href="https://sitenvar.com/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sitenvar.com/">
+<meta property="og:title" content="SitenVar — Siten Yok mu? Artık VAR!">
+<meta property="og:description" content="Profesyonel web sitesi ve Android (APK) uygulama geliştirme. Fikrini söyle, gerisini bize bırak.">
+<meta name="theme-color" content="#070a14">
 <style>
   :root{
     --bg:#070a14;
@@ -241,7 +248,8 @@
   select option{background:var(--bg2);color:var(--text)}
   textarea{resize:vertical;min-height:120px}
   .form-msg{display:none;padding:14px 18px;border-radius:14px;font-weight:600;font-size:.95rem}
-  .form-msg.ok{display:block;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.4);color:#7bedaa}
+  .form-msg.ok{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.4);color:#7bedaa}
+  .form-msg.err{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.4);color:#ffb3b3}
 
   /* SSS */
   details{
@@ -369,10 +377,10 @@
     <a href="#hizmetler" class="btn ghost">Hizmetlere Göz At</a>
   </div>
   <div class="hero-stats">
-    <div class="stat"><b data-count="50">0</b><span>Tamamlanan Proje</span></div>
-    <div class="stat"><b data-count="100">0</b><span>% Müşteri Memnuniyeti</span></div>
-    <div class="stat"><b data-count="7">0</b><span>Gün İçinde Teslim</span></div>
-    <div class="stat"><b data-count="24">0</b><span>Saat Destek</span></div>
+    <div class="stat"><b data-count="50" data-suffix="+">0</b><span>Tamamlanan Proje</span></div>
+    <div class="stat"><b data-count="100" data-suffix="">0</b><span>% Müşteri Memnuniyeti</span></div>
+    <div class="stat"><b data-count="3" data-suffix="">0</b><span>Günde Teslim</span></div>
+    <div class="stat"><b data-count="24" data-suffix="/7">0</b><span>Destek</span></div>
   </div>
 </header>
 
@@ -573,8 +581,9 @@
         </select>
       </div>
       <textarea name="mesaj" placeholder="Projenden bahset... Ne tür bir site/uygulama istiyorsun? *" required></textarea>
-      <button class="btn" type="submit">📨 Siparişi Gönder</button>
+      <button class="btn" type="submit" id="sendBtn">📨 Siparişi Gönder</button>
       <div class="form-msg ok" id="formOk">✅ Mesajın alındı! En kısa sürede sana dönüş yapacağız.</div>
+      <div class="form-msg err" id="formErr">⚠️ Gönderilemedi. Lütfen <a href="https://wa.me/905362065834" target="_blank" rel="noopener" style="color:#7bedaa">WhatsApp'tan yaz</a> veya tekrar dene.</div>
     </form>
   </div>
 </section>
@@ -612,10 +621,10 @@ const counters=document.querySelectorAll('[data-count]');
 const cObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(!e.isIntersecting) return;
-    const el=e.target, target=+el.dataset.count, dur=1600, t0=performance.now();
+    const el=e.target, target=+el.dataset.count, suffix=el.dataset.suffix||'', dur=1600, t0=performance.now();
     const tick=t=>{
       const p=Math.min((t-t0)/dur,1);
-      el.textContent=Math.round(target*(1-Math.pow(1-p,3)))+(target>=100?'':'+');
+      el.textContent=Math.round(target*(1-Math.pow(1-p,3)))+suffix;
       if(p<1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -624,9 +633,12 @@ const cObs=new IntersectionObserver(entries=>{
 },{threshold:.5});
 counters.forEach(c=>cObs.observe(c));
 
-// Açılış popup'ı — sayfa açıldıktan 1.5 sn sonra göster
+// Açılış popup'ı — oturum başına bir kez, 1.5 sn sonra göster
 const modal=document.getElementById('welcomeModal');
-setTimeout(()=>modal.classList.add('open'),1500);
+if(!sessionStorage.getItem('sv_popup')){
+  setTimeout(()=>modal.classList.add('open'),1500);
+  sessionStorage.setItem('sv_popup','1');
+}
 const closeModal=()=>modal.classList.remove('open');
 document.getElementById('modalClose').addEventListener('click',closeModal);
 document.getElementById('modalLater').addEventListener('click',closeModal);
@@ -645,12 +657,32 @@ window.addEventListener('scroll',()=>{
 },{passive:true});
 toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-// Form
-document.getElementById('orderForm').addEventListener('submit',e=>{
+// Form — FormSubmit ile e-postaya gönder
+document.getElementById('orderForm').addEventListener('submit',async e=>{
   e.preventDefault();
-  document.getElementById('formOk').style.display='block';
-  e.target.reset();
-  setTimeout(()=>document.getElementById('formOk').style.display='none',6000);
+  const form=e.target, btn=document.getElementById('sendBtn');
+  const ok=document.getElementById('formOk'), err=document.getElementById('formErr');
+  ok.style.display='none'; err.style.display='none';
+  btn.disabled=true; btn.textContent='⏳ Gönderiliyor...';
+  try{
+    const data=Object.fromEntries(new FormData(form));
+    data._subject='🚀 SitenVar — Yeni Sipariş: '+data.paket;
+    data._template='table';
+    const res=await fetch('https://formsubmit.co/ajax/eymenvar58@gmail.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(data)
+    });
+    const j=await res.json();
+    if(!res.ok || String(j.success)!=='true') throw new Error('gönderim hatası');
+    ok.style.display='block';
+    form.reset();
+    setTimeout(()=>ok.style.display='none',8000);
+  }catch(_){
+    err.style.display='block';
+  }finally{
+    btn.disabled=false; btn.textContent='📨 Siparişi Gönder';
+  }
 });
 </script>
 </body>
