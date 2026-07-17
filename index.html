@@ -460,7 +460,7 @@
         <li>3 gün içinde teslim</li>
         <li>1 ay ücretsiz destek</li>
       </ul>
-      <a href="#iletisim" class="btn ghost">Bu Paketi Seç</a>
+      <a href="#iletisim" class="btn paket-btn" data-paket="🌱 Çırak Paketi — Tek Sayfa Site">Bu Paketi Seç</a>
     </div>
     <div class="price popular reveal">
       <div class="pop-badge">⭐ EN POPÜLER</div>
@@ -474,9 +474,9 @@
         <li>SEO optimizasyonu</li>
         <li>Yönetim paneli</li>
         <li>7 gün içinde teslim</li>
-        <li>3 ay ücretsiz destek</li>
+        <li>1 ay ücretsiz destek</li>
       </ul>
-      <a href="#iletisim" class="btn">Bu Paketi Seç</a>
+      <a href="#iletisim" class="btn paket-btn" data-paket="🔥 Kalfa Paketi — Kurumsal Site">Bu Paketi Seç</a>
     </div>
     <div class="price reveal">
       <h3><span class="p-emoji">👑</span>Usta Paketi</h3>
@@ -489,9 +489,9 @@
         <li>Uygulama ikonu & tasarımı</li>
         <li>Bildirim desteği</li>
         <li>14 gün içinde teslim</li>
-        <li>6 ay ücretsiz destek</li>
+        <li>1 ay ücretsiz destek</li>
       </ul>
-      <a href="#iletisim" class="btn ghost">Bu Paketi Seç</a>
+      <a href="#iletisim" class="btn paket-btn" data-paket="👑 Usta Paketi — Site + APK">Bu Paketi Seç</a>
     </div>
   </div>
 </section>
@@ -572,12 +572,13 @@
       </div>
       <div class="row2">
         <input type="tel" name="telefon" placeholder="Telefon (isteğe bağlı)">
-        <select name="paket" required>
-          <option value="" disabled selected>Paket Seç *</option>
-          <option>🌱 Çırak Paketi — Tek Sayfa Site</option>
-          <option>🔥 Kalfa Paketi — Kurumsal Site</option>
-          <option>👑 Usta Paketi — Site + APK</option>
-          <option>Özel Proje (fiyat teklifi)</option>
+        <select name="paket" id="paketSec" required>
+          <option value="" disabled selected>📦 Hangi paketi istiyorsun? *</option>
+          <option value="🌱 Çırak Paketi — Tek Sayfa Site">🌱 Çırak — Tek Sayfa Site (₺4.000'den)</option>
+          <option value="🔥 Kalfa Paketi — Kurumsal Site">🔥 Kalfa — Kurumsal Site (₺8.000'den)</option>
+          <option value="👑 Usta Paketi — Site + APK">👑 Usta — Site + APK (₺16.000'den)</option>
+          <option value="💬 Özel Proje">💬 Özel Proje — birlikte fiyat belirleyelim</option>
+          <option value="❓ Henüz bilmiyorum">❓ Henüz bilmiyorum, yardım edin</option>
         </select>
       </div>
       <textarea name="mesaj" placeholder="Projenden bahset... Ne tür bir site/uygulama istiyorsun? *" required></textarea>
@@ -656,6 +657,12 @@ window.addEventListener('scroll',()=>{
   toTop.classList.toggle('show',h.scrollTop>500);
 },{passive:true});
 toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// "Bu Paketi Seç" -> formda o paket otomatik seçili gelsin
+const paketSec=document.getElementById('paketSec');
+document.querySelectorAll('.paket-btn').forEach(b=>{
+  b.addEventListener('click',()=>{ paketSec.value=b.dataset.paket; });
+});
 
 // Form — FormSubmit ile e-postaya gönder
 document.getElementById('orderForm').addEventListener('submit',async e=>{
