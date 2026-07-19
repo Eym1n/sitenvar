@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sayfa Bulunamadı — 404 | SitenVar</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<meta name="theme-color" content="#070a14">
+<style>
+  :root{--bg:#070a14;--text:#eef1fb;--muted:#9aa3c7;--accent:#6c5ce7;--accent2:#00d2ff;--accent3:#ff6b9d;--border:rgba(255,255,255,.08)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:24px;overflow:hidden;position:relative;
+  }
+  .glow{position:fixed;border-radius:50%;filter:blur(130px);opacity:.3;z-index:-1}
+  .g1{width:500px;height:500px;background:var(--accent);top:-200px;left:-150px}
+  .g2{width:400px;height:400px;background:var(--accent2);bottom:-150px;right:-100px}
+  .rocket{font-size:5rem;display:block;margin-bottom:10px;animation:drift 3s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translateY(0) rotate(-8deg)}to{transform:translateY(-18px) rotate(8deg)}}
+  h1{font-size:clamp(4rem,15vw,8rem);font-weight:900;letter-spacing:-4px;line-height:1;
+    background:linear-gradient(90deg,var(--accent2),var(--accent),var(--accent3));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  h2{font-size:clamp(1.2rem,3.5vw,1.7rem);font-weight:800;margin:14px 0 10px}
+  p{color:var(--muted);max-width:440px;margin-bottom:30px}
+  .btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+  .btn{
+    display:inline-block;padding:13px 30px;border-radius:999px;font-weight:700;text-decoration:none;color:#fff;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    box-shadow:0 8px 24px rgba(108,92,231,.35);transition:transform .2s;
+  }
+  .btn:hover{transform:translateY(-3px)}
+  .btn.ghost{background:transparent;border:1.5px solid var(--border);box-shadow:none;color:var(--text)}
+</style>
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+<span class="rocket">🚀</span>
+<h1>404</h1>
+<h2>Bu sayfa yok... ama siten VAR olabilir!</h2>
+<p>Aradığın sayfa taşınmış ya da hiç var olmamış olabilir. Sen en iyisi sağlam bir adrese dön.</p>
+<div class="btns">
+  <a class="btn" href="/">🏠 Ana Sayfaya Dön</a>
+  <a class="btn ghost" href="/#iletisim">📨 Bize Ulaş</a>
+</div>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "fdab73782ad44328893a8db9b4ba351e"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
