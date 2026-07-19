@@ -279,6 +279,26 @@
   .price li::before{content:"✓";color:var(--accent2);font-weight:900;flex-shrink:0}
   .price .btn{text-align:center;width:100%}
 
+  /* Çalışmalarımız */
+  .works{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+  .work{
+    background:linear-gradient(160deg,var(--card),var(--bg2));
+    border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+    transition:transform .3s, border-color .3s, box-shadow .3s;
+  }
+  .work:hover{transform:translateY(-8px);border-color:rgba(0,210,255,.4);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  .work .shot{position:relative;overflow:hidden;aspect-ratio:16/10;border-bottom:1px solid var(--border)}
+  .work .shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .4s}
+  .work:hover .shot img{transform:scale(1.04)}
+  .work .body{padding:24px 26px 28px}
+  .work .tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .work .tags span{
+    padding:4px 12px;border-radius:999px;font-size:.75rem;font-weight:700;
+    background:rgba(108,92,231,.15);border:1px solid rgba(108,92,231,.35);color:#b8b0ff;
+  }
+  .work h3{font-size:1.25rem;margin-bottom:8px}
+  .work p{color:var(--muted);font-size:.93rem}
+
   /* Yorumlar */
   .quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
   .quote{
@@ -435,6 +455,7 @@
   <a class="logo" href="#">Siten<b>Var</b></a>
   <div class="nav-links">
     <a href="#hizmetler">Hizmetler</a>
+    <a href="#calismalar">Çalışmalarımız</a>
     <a href="#surec">Nasıl Çalışır?</a>
     <a href="#fiyatlar">Fiyatlar</a>
     <a href="#sss">SSS</a>
@@ -496,6 +517,33 @@
       <div class="icon">🛠️</div>
       <h3>Bakım & Destek</h3>
       <p>Teslimattan sonra da yanındayız. Güncelleme, düzeltme ve 7/24 destek sağlıyoruz.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ÇALIŞMALARIMIZ ============ -->
+<section id="calismalar">
+  <div class="reveal">
+    <span class="sec-tag">Çalışmalarımız</span>
+    <h2>Neler Yaptık?</h2>
+    <p class="sec-desc">Lafla değil, işle konuşalım. İşte tasarladığımız projelerden bazıları.</p>
+  </div>
+  <div class="works">
+    <div class="work reveal">
+      <div class="shot"><img src="/works/bahariye.jpg" alt="Bahariye Halı Yıkama web sitesi — ana sayfa görünümü" loading="lazy" width="900" height="597"></div>
+      <div class="body">
+        <div class="tags"><span>🌐 Tanıtım Sitesi</span><span>📍 Yerel SEO</span></div>
+        <h3>Bahariye Halı Yıkama</h3>
+        <p>İstanbul Ataşehir merkezli halı yıkama atölyesi için yerel SEO odaklı tanıtım sitesi. Kilim deseninden ilham alan özel tasarım, WhatsApp randevu sistemi ve bölge bazlı hizmet sayfaları.</p>
+      </div>
+    </div>
+    <div class="work reveal">
+      <div class="shot"><img src="/works/myrelax.jpg" alt="My Relax kurumsal temizlik ürünleri e-ticaret sitesi — ana sayfa görünümü" loading="lazy" width="900" height="597"></div>
+      <div class="body">
+        <div class="tags"><span>🛒 E-Ticaret</span><span>⚙️ Yönetim Paneli</span></div>
+        <h3>My Relax</h3>
+        <p>Kurumsal temizlik kimyasalları tedarikçisi için ürün kataloglu, teklif sistemli e-ticaret altyapısı. Üye hesapları, sipariş takibi ve tam donanımlı yönetim paneliyle birlikte.</p>
+      </div>
     </div>
   </div>
 </section>
